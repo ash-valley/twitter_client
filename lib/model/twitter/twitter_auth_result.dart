@@ -1,14 +1,18 @@
 // ignore: unused_import
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:twitter_client/model/twitter/twitter_user.dart';
 
 part 'twitter_auth_result.freezed.dart';
+part 'twitter_auth_result.g.dart';
 
 @freezed
 class TwitterAuthResult with _$TwitterAuthResult {
   const factory TwitterAuthResult({
+    required String id,
     required String authToken,
     required String authTokenSecret,
-    required TwitterUser user,
   }) = _TwitterAuthResult;
+
+  factory TwitterAuthResult.fromJson(Map<String, dynamic> json) =>
+      _$TwitterAuthResultFromJson(json);
 }

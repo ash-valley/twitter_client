@@ -14,12 +14,17 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+TwitterAuthResult _$TwitterAuthResultFromJson(Map<String, dynamic> json) {
+  return _TwitterAuthResult.fromJson(json);
+}
+
 /// @nodoc
 mixin _$TwitterAuthResult {
+  String get id => throw _privateConstructorUsedError;
   String get authToken => throw _privateConstructorUsedError;
   String get authTokenSecret => throw _privateConstructorUsedError;
-  TwitterUser get user => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $TwitterAuthResultCopyWith<TwitterAuthResult> get copyWith =>
       throw _privateConstructorUsedError;
@@ -31,9 +36,7 @@ abstract class $TwitterAuthResultCopyWith<$Res> {
           TwitterAuthResult value, $Res Function(TwitterAuthResult) then) =
       _$TwitterAuthResultCopyWithImpl<$Res, TwitterAuthResult>;
   @useResult
-  $Res call({String authToken, String authTokenSecret, TwitterUser user});
-
-  $TwitterUserCopyWith<$Res> get user;
+  $Res call({String id, String authToken, String authTokenSecret});
 }
 
 /// @nodoc
@@ -49,11 +52,15 @@ class _$TwitterAuthResultCopyWithImpl<$Res, $Val extends TwitterAuthResult>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? authToken = null,
     Object? authTokenSecret = null,
-    Object? user = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       authToken: null == authToken
           ? _value.authToken
           : authToken // ignore: cast_nullable_to_non_nullable
@@ -62,19 +69,7 @@ class _$TwitterAuthResultCopyWithImpl<$Res, $Val extends TwitterAuthResult>
           ? _value.authTokenSecret
           : authTokenSecret // ignore: cast_nullable_to_non_nullable
               as String,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as TwitterUser,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $TwitterUserCopyWith<$Res> get user {
-    return $TwitterUserCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value) as $Val);
-    });
   }
 }
 
@@ -86,10 +81,7 @@ abstract class _$$_TwitterAuthResultCopyWith<$Res>
       __$$_TwitterAuthResultCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String authToken, String authTokenSecret, TwitterUser user});
-
-  @override
-  $TwitterUserCopyWith<$Res> get user;
+  $Res call({String id, String authToken, String authTokenSecret});
 }
 
 /// @nodoc
@@ -103,11 +95,15 @@ class __$$_TwitterAuthResultCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? authToken = null,
     Object? authTokenSecret = null,
-    Object? user = null,
   }) {
     return _then(_$_TwitterAuthResult(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       authToken: null == authToken
           ? _value.authToken
           : authToken // ignore: cast_nullable_to_non_nullable
@@ -116,32 +112,43 @@ class __$$_TwitterAuthResultCopyWithImpl<$Res>
           ? _value.authTokenSecret
           : authTokenSecret // ignore: cast_nullable_to_non_nullable
               as String,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as TwitterUser,
     ));
   }
 }
 
 /// @nodoc
-
-class _$_TwitterAuthResult implements _TwitterAuthResult {
+@JsonSerializable()
+class _$_TwitterAuthResult
+    with DiagnosticableTreeMixin
+    implements _TwitterAuthResult {
   const _$_TwitterAuthResult(
-      {required this.authToken,
-      required this.authTokenSecret,
-      required this.user});
+      {required this.id,
+      required this.authToken,
+      required this.authTokenSecret});
 
+  factory _$_TwitterAuthResult.fromJson(Map<String, dynamic> json) =>
+      _$$_TwitterAuthResultFromJson(json);
+
+  @override
+  final String id;
   @override
   final String authToken;
   @override
   final String authTokenSecret;
-  @override
-  final TwitterUser user;
 
   @override
-  String toString() {
-    return 'TwitterAuthResult(authToken: $authToken, authTokenSecret: $authTokenSecret, user: $user)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'TwitterAuthResult(id: $id, authToken: $authToken, authTokenSecret: $authTokenSecret)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'TwitterAuthResult'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('authToken', authToken))
+      ..add(DiagnosticsProperty('authTokenSecret', authTokenSecret));
   }
 
   @override
@@ -149,16 +156,16 @@ class _$_TwitterAuthResult implements _TwitterAuthResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TwitterAuthResult &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.authToken, authToken) ||
                 other.authToken == authToken) &&
             (identical(other.authTokenSecret, authTokenSecret) ||
-                other.authTokenSecret == authTokenSecret) &&
-            (identical(other.user, user) || other.user == user));
+                other.authTokenSecret == authTokenSecret));
   }
 
+  @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, authToken, authTokenSecret, user);
+  int get hashCode => Object.hash(runtimeType, id, authToken, authTokenSecret);
 
   @JsonKey(ignore: true)
   @override
@@ -166,20 +173,30 @@ class _$_TwitterAuthResult implements _TwitterAuthResult {
   _$$_TwitterAuthResultCopyWith<_$_TwitterAuthResult> get copyWith =>
       __$$_TwitterAuthResultCopyWithImpl<_$_TwitterAuthResult>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_TwitterAuthResultToJson(
+      this,
+    );
+  }
 }
 
 abstract class _TwitterAuthResult implements TwitterAuthResult {
   const factory _TwitterAuthResult(
-      {required final String authToken,
-      required final String authTokenSecret,
-      required final TwitterUser user}) = _$_TwitterAuthResult;
+      {required final String id,
+      required final String authToken,
+      required final String authTokenSecret}) = _$_TwitterAuthResult;
 
+  factory _TwitterAuthResult.fromJson(Map<String, dynamic> json) =
+      _$_TwitterAuthResult.fromJson;
+
+  @override
+  String get id;
   @override
   String get authToken;
   @override
   String get authTokenSecret;
-  @override
-  TwitterUser get user;
   @override
   @JsonKey(ignore: true)
   _$$_TwitterAuthResultCopyWith<_$_TwitterAuthResult> get copyWith =>

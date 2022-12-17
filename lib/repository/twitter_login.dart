@@ -1,8 +1,8 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_client/exception/twitter_auth_exception.dart';
 import 'package:twitter_client/model/twitter/twitter_auth_result.dart';
-import 'package:twitter_client/model/twitter/twitter_user.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 part 'twitter_login.g.dart';
@@ -11,6 +11,10 @@ part 'twitter_login.g.dart';
 final TWITTER_API_KEY = dotenv.get('TWITTER_API_KEY');
 // ignore: non_constant_identifier_names
 final TWITTER_API_SECRET_KEY = dotenv.get('TWITTER_API_SECRET_KEY');
+
+final authStateProvider = StateProvider<TwitterAuthResult?>((ref) {
+  return;
+});
 
 @riverpod
 TwitterLoginWrapper twitterLogin(TwitterLoginRef ref) {
@@ -43,12 +47,9 @@ class TwitterLoginWrapper {
       case TwitterLoginStatus.loggedIn:
         final user = authResult.user!;
         return TwitterAuthResult(
+          id: user.id.toString(),
           authToken: authResult.authToken!,
           authTokenSecret: authResult.authTokenSecret!,
-          user: TwitterUser(
-            id: user.id,
-            name: user.name,
-          ),
         );
       case TwitterLoginStatus.cancelledByUser:
         return null;
