@@ -28,10 +28,7 @@ GoRouter router(RouterRef ref) {
     ],
     redirect: (context, state) async {
       if (ref.watch(authStateProvider) == null) {
-        if (await ref
-                .read(secureStorageProvider)
-                .read(key: TWITTER_AUTH_STORAGE_KEY) ==
-            null) {
+        if (await ref.read(secureStorageProvider).getTwitterAuth() == null) {
           return '/login';
         }
       }

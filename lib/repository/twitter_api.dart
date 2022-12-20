@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_api_v2/twitter_api_v2.dart';
 import 'package:twitter_client/model/twitter/twitter_auth_result.dart';
@@ -9,13 +7,10 @@ import 'package:twitter_client/repository/twitter_login.dart';
 final timelineProvider = FutureProvider<List<TweetData>>((ref) async {
   TwitterAuthResult? authState = ref.read(authStateProvider);
   if (authState == null) {
-    final auth = await ref
-        .read(secureStorageProvider)
-        .read(key: TWITTER_AUTH_STORAGE_KEY);
-    if (auth == null) {
+    authState = await ref.read(secureStorageProvider).getTwitterAuth();
+    if (authState == null) {
       return [];
     }
-    authState = TwitterAuthResult.fromJson(json.decode(auth));
   }
   return TwitterApiWrapper(authResult: authState).getTimeLine();
 });

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_client/repository/secure_storage.dart';
@@ -20,9 +18,7 @@ class Login extends ConsumerWidget {
             }
             ref.read(authStateProvider.notifier).state = authResult;
             final storage = ref.read(secureStorageProvider);
-            storage.write(
-                key: TWITTER_AUTH_STORAGE_KEY,
-                value: json.encode(authResult.toJson()));
+            storage.setTwitterAuth(authResult);
           },
           child: const Text('twitter login'),
         ),

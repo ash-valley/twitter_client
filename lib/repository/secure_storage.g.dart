@@ -29,13 +29,13 @@ class _SystemHash {
   }
 }
 
-String $secureStorageHash() => r'77df30c7098a9f252222741225993ef719fafe36';
+String $secureStorageHash() => r'36f25934bd3dcb46655be8c221ac640791360d9d';
 
 /// See also [secureStorage].
-final secureStorageProvider = AutoDisposeProvider<FlutterSecureStorage>(
+final secureStorageProvider = AutoDisposeProvider<SecureStorage>(
   secureStorage,
   name: r'secureStorageProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : $secureStorageHash,
 );
-typedef SecureStorageRef = AutoDisposeProviderRef<FlutterSecureStorage>;
+typedef SecureStorageRef = AutoDisposeProviderRef<SecureStorage>;
