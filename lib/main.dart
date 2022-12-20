@@ -23,7 +23,7 @@ class App extends ConsumerWidget {
       routerConfig: router,
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.system,
       title: 'Flutter Demo',
     );
   }

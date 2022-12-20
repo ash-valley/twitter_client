@@ -3,7 +3,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_client/page/home.dart';
 import 'package:twitter_client/page/login.dart';
 import 'package:twitter_client/repository/secure_storage.dart';
-import 'package:twitter_client/repository/twitter_login.dart';
 
 part 'router.g.dart';
 
@@ -27,10 +26,8 @@ GoRouter router(RouterRef ref) {
       ),
     ],
     redirect: (context, state) async {
-      if (ref.watch(authStateProvider) == null) {
-        if (await ref.read(secureStorageProvider).getTwitterAuth() == null) {
-          return '/login';
-        }
+      if (await ref.read(secureStorageProvider).getTwitterAuth() == null) {
+        return '/login';
       }
       return null;
     },

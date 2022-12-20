@@ -1,5 +1,4 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_client/exception/twitter_auth_exception.dart';
 import 'package:twitter_client/model/twitter/twitter_auth_result.dart';
@@ -11,10 +10,6 @@ part 'twitter_login.g.dart';
 final TWITTER_API_KEY = dotenv.get('TWITTER_API_KEY');
 // ignore: non_constant_identifier_names
 final TWITTER_API_SECRET_KEY = dotenv.get('TWITTER_API_SECRET_KEY');
-
-final authStateProvider = StateProvider<TwitterAuthResult?>((ref) {
-  return;
-});
 
 @riverpod
 TwitterLoginWrapper twitterLogin(TwitterLoginRef ref) {

@@ -16,7 +16,6 @@ class Login extends ConsumerWidget {
             if (authResult == null) {
               return;
             }
-            ref.read(authStateProvider.notifier).state = authResult;
             final storage = ref.read(secureStorageProvider);
             storage.setTwitterAuth(authResult);
           },

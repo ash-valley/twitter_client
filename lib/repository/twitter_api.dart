@@ -6,13 +6,12 @@ import 'package:twitter_client/repository/secure_storage.dart';
 import 'package:twitter_client/repository/twitter_login.dart';
 
 final timelineProvider = FutureProvider<List<TweetDataWithAuthor>>((ref) async {
-  TwitterAuthResult? authState = ref.read(authStateProvider);
+  // todo: 認証取得の共通化
+  final authState = await ref.read(secureStorageProvider).getTwitterAuth();
   if (authState == null) {
-    authState = await ref.read(secureStorageProvider).getTwitterAuth();
-    if (authState == null) {
-      return [];
-    }
+    return throw UnauthorizedException('not auth');
   }
+
   final twitterApi = TwitterApiWrapper(authResult: authState);
   final timeLine = await twitterApi.getTimeLine();
   final userIds = timeLine
@@ -21,6 +20,7 @@ final timelineProvider = FutureProvider<List<TweetDataWithAuthor>>((ref) async {
       .whereType<String>()
       .toSet()
       .toList();
+  // todo: user情報をproviderに保管しとけるようにする
   final users = await twitterApi.getUsers(userIds);
   return timeLine
       .map(
@@ -29,6 +29,7 @@ final timelineProvider = FutureProvider<List<TweetDataWithAuthor>>((ref) async {
           userData: users.firstWhere(
             (u) => e.authorId == u.id,
             orElse: () =>
+                // todo: ない時の処理（そもそもない時とかある？）
                 const UserData(id: 'id', name: 'name', username: 'username'),
           ),
         ),
