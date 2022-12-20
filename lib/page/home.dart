@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_api_v2/twitter_api_v2.dart';
+import 'package:twitter_client/model/twitter/tweet_data_with_author.dart';
 import 'package:twitter_client/repository/twitter_api.dart';
 
 class Home extends StatelessWidget {
@@ -42,14 +42,16 @@ class Tweet extends ConsumerWidget {
     required this.tweet,
   });
 
-  final TweetData tweet;
+  final TweetDataWithAuthor tweet;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      leading: const Icon(Icons.abc),
-      title: Text(tweet.toString()),
-      subtitle: Text(tweet.text),
+      leading: tweet.userData.profileImageUrl != null
+          ? Image.network(tweet.userData.profileImageUrl!)
+          : const Icon(Icons.account_circle),
+      title: SelectableText(tweet.userData.name),
+      subtitle: Text(tweet.tweetData.text),
     );
   }
 }
