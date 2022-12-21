@@ -26,9 +26,10 @@ GoRouter router(RouterRef ref) {
         },
       ),
     ],
-    redirect: (context, state) async {
-      if (await ref.watch(
-              readSecureStorageProvider(SecureStorageKey.twitterAuth).future) ==
+    redirect: (context, state) {
+      if (ref
+              .watch(readSecureStorageProvider(SecureStorageKey.twitterAuth))
+              .valueOrNull ==
           null) {
         return '/login';
       }

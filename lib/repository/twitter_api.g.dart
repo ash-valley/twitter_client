@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'router.dart';
+part of 'twitter_api.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -29,13 +29,13 @@ class _SystemHash {
   }
 }
 
-String $routerHash() => r'3c929cfa6dfc54241b73f5cb2630fd05620adaa5';
+String $twitterApiHash() => r'4151484ab5ead9b9d29713c66a449b3106ac0411';
 
-/// See also [router].
-final routerProvider = AutoDisposeProvider<GoRouter>(
-  router,
-  name: r'routerProvider',
+/// See also [twitterApi].
+final twitterApiProvider = FutureProvider<TwitterApiWrapper>(
+  twitterApi,
+  name: r'twitterApiProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : $routerHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : $twitterApiHash,
 );
-typedef RouterRef = AutoDisposeProviderRef<GoRouter>;
+typedef TwitterApiRef = FutureProviderRef<TwitterApiWrapper>;
