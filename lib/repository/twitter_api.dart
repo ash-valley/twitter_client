@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_api_v2/twitter_api_v2.dart';
+import 'package:twitter_client/model/secure_storage/secure_storage.dart';
 import 'package:twitter_client/model/twitter/tweet_data_with_author.dart';
 import 'package:twitter_client/model/twitter/twitter_auth_result.dart';
 import 'package:twitter_client/repository/secure_storage.dart';
@@ -7,12 +8,12 @@ import 'package:twitter_client/repository/twitter_login.dart';
 
 final timelineProvider = FutureProvider<List<TweetDataWithAuthor>>((ref) async {
   // todo: 認証取得の共通化
-  final authState = await ref.read(secureStorageProvider).getTwitterAuth();
-  if (authState == null) {
+  final secureStorage = await ref
+      .read(readSecureStorageProvider(SecureStorageKey.twitterAuth).future);
+  if (secureStorage?.mapOrNull(twitterAuth: (e) => e.value) == null) {
     return throw UnauthorizedException('not auth');
   }
-
-  final twitterApi = TwitterApiWrapper(authResult: authState);
+  final twitterApi = TwitterApiWrapper(authResult: secureStorage!.value);
   final timeLine = await twitterApi.getTimeLine();
   final userIds = timeLine
       .map((e) => e.authorId)
@@ -59,6 +60,7 @@ class TwitterApiWrapper {
       TweetField.authorId,
       TweetField.entities,
     ]);
+    print(timeline.meta);
     return timeline.data;
   }
 

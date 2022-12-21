@@ -2,36 +2,41 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:twitter_client/model/twitter/twitter_auth_result.dart';
+import 'package:twitter_client/model/secure_storage/secure_storage.dart';
 
 part 'secure_storage.g.dart';
 
 @riverpod
-SecureStorage secureStorage(SecureStorageRef ref) {
-  return const SecureStorage(storage: FlutterSecureStorage());
+FlutterSecureStorage flutterSecureStorage(FlutterSecureStorageRef ref) {
+  return const FlutterSecureStorage();
 }
 
-class SecureStorage {
-  const SecureStorage({required this.storage});
+@riverpod
+FutureOr<void> writeSecureStorage(
+  WriteSecureStorageRef ref,
+  SecureStorage secureStorage,
+) =>
+    ref.read(flutterSecureStorageProvider).write(
+          key: secureStorage.key!.name,
+          value: json.encode(secureStorage.toJson()),
+        );
 
-  final FlutterSecureStorage storage;
-  final _twitterAuthStorageKey = 'twitter-auth-storage-key';
-
-  Future<void> setTwitterAuth(TwitterAuthResult authResult) async {
-    final str = json.encode(authResult.toJson());
-    await storage.write(key: _twitterAuthStorageKey, value: str);
+@Riverpod(keepAlive: true)
+Future<SecureStorage?> readSecureStorage(
+  ReadSecureStorageRef ref,
+  SecureStorageKey key,
+) async {
+  final value =
+      await ref.read(flutterSecureStorageProvider).read(key: key.name);
+  if (value == null) {
+    return null;
   }
-
-  Future<TwitterAuthResult?> getTwitterAuth() async {
-    final twitterAuth = await storage.read(key: _twitterAuthStorageKey);
-    if (twitterAuth == null) {
-      return null;
-    }
-    final twitterAuthJson = json.decode(twitterAuth);
-    return TwitterAuthResult.fromJson(twitterAuthJson);
-  }
-
-  Future<void> deleteTwitterAuth() async {
-    await storage.delete(key: _twitterAuthStorageKey);
-  }
+  return SecureStorage.fromJson(json.decode(value));
 }
+
+@riverpod
+FutureOr<void> deleteSecureStorage(
+  DeleteSecureStorageRef ref,
+  SecureStorageKey key,
+) =>
+    ref.read(flutterSecureStorageProvider).delete(key: key.name);

@@ -29,13 +29,226 @@ class _SystemHash {
   }
 }
 
-String $secureStorageHash() => r'36f25934bd3dcb46655be8c221ac640791360d9d';
+String $flutterSecureStorageHash() =>
+    r'04c4b9c1628578344b18cad756230eee7b28cb00';
 
-/// See also [secureStorage].
-final secureStorageProvider = AutoDisposeProvider<SecureStorage>(
-  secureStorage,
-  name: r'secureStorageProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : $secureStorageHash,
+/// See also [flutterSecureStorage].
+final flutterSecureStorageProvider = AutoDisposeProvider<FlutterSecureStorage>(
+  flutterSecureStorage,
+  name: r'flutterSecureStorageProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : $flutterSecureStorageHash,
 );
-typedef SecureStorageRef = AutoDisposeProviderRef<SecureStorage>;
+typedef FlutterSecureStorageRef = AutoDisposeProviderRef<FlutterSecureStorage>;
+String $writeSecureStorageHash() => r'46df58abb23efdef2da942bc557c85c6853a2c03';
+
+/// See also [writeSecureStorage].
+class WriteSecureStorageProvider extends AutoDisposeFutureProvider<void> {
+  WriteSecureStorageProvider(
+    this.secureStorage,
+  ) : super(
+          (ref) => writeSecureStorage(
+            ref,
+            secureStorage,
+          ),
+          from: writeSecureStorageProvider,
+          name: r'writeSecureStorageProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : $writeSecureStorageHash,
+        );
+
+  final SecureStorage secureStorage;
+
+  @override
+  bool operator ==(Object other) {
+    return other is WriteSecureStorageProvider &&
+        other.secureStorage == secureStorage;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, secureStorage.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+typedef WriteSecureStorageRef = AutoDisposeFutureProviderRef<void>;
+
+/// See also [writeSecureStorage].
+final writeSecureStorageProvider = WriteSecureStorageFamily();
+
+class WriteSecureStorageFamily extends Family<AsyncValue<void>> {
+  WriteSecureStorageFamily();
+
+  WriteSecureStorageProvider call(
+    SecureStorage secureStorage,
+  ) {
+    return WriteSecureStorageProvider(
+      secureStorage,
+    );
+  }
+
+  @override
+  AutoDisposeFutureProvider<void> getProviderOverride(
+    covariant WriteSecureStorageProvider provider,
+  ) {
+    return call(
+      provider.secureStorage,
+    );
+  }
+
+  @override
+  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+
+  @override
+  List<ProviderOrFamily>? get dependencies => null;
+
+  @override
+  String? get name => r'writeSecureStorageProvider';
+}
+
+String $readSecureStorageHash() => r'181de89c3f97c57131d5478f002b50b8b1ce7ac9';
+
+/// See also [readSecureStorage].
+class ReadSecureStorageProvider extends FutureProvider<SecureStorage?> {
+  ReadSecureStorageProvider(
+    this.key,
+  ) : super(
+          (ref) => readSecureStorage(
+            ref,
+            key,
+          ),
+          from: readSecureStorageProvider,
+          name: r'readSecureStorageProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : $readSecureStorageHash,
+        );
+
+  final SecureStorageKey key;
+
+  @override
+  bool operator ==(Object other) {
+    return other is ReadSecureStorageProvider && other.key == key;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, key.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+typedef ReadSecureStorageRef = FutureProviderRef<SecureStorage?>;
+
+/// See also [readSecureStorage].
+final readSecureStorageProvider = ReadSecureStorageFamily();
+
+class ReadSecureStorageFamily extends Family<AsyncValue<SecureStorage?>> {
+  ReadSecureStorageFamily();
+
+  ReadSecureStorageProvider call(
+    SecureStorageKey key,
+  ) {
+    return ReadSecureStorageProvider(
+      key,
+    );
+  }
+
+  @override
+  FutureProvider<SecureStorage?> getProviderOverride(
+    covariant ReadSecureStorageProvider provider,
+  ) {
+    return call(
+      provider.key,
+    );
+  }
+
+  @override
+  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+
+  @override
+  List<ProviderOrFamily>? get dependencies => null;
+
+  @override
+  String? get name => r'readSecureStorageProvider';
+}
+
+String $deleteSecureStorageHash() =>
+    r'55ee64e2d75eb18d053456797e2ebd875c9fee52';
+
+/// See also [deleteSecureStorage].
+class DeleteSecureStorageProvider extends AutoDisposeFutureProvider<void> {
+  DeleteSecureStorageProvider(
+    this.key,
+  ) : super(
+          (ref) => deleteSecureStorage(
+            ref,
+            key,
+          ),
+          from: deleteSecureStorageProvider,
+          name: r'deleteSecureStorageProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : $deleteSecureStorageHash,
+        );
+
+  final SecureStorageKey key;
+
+  @override
+  bool operator ==(Object other) {
+    return other is DeleteSecureStorageProvider && other.key == key;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, key.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+typedef DeleteSecureStorageRef = AutoDisposeFutureProviderRef<void>;
+
+/// See also [deleteSecureStorage].
+final deleteSecureStorageProvider = DeleteSecureStorageFamily();
+
+class DeleteSecureStorageFamily extends Family<AsyncValue<void>> {
+  DeleteSecureStorageFamily();
+
+  DeleteSecureStorageProvider call(
+    SecureStorageKey key,
+  ) {
+    return DeleteSecureStorageProvider(
+      key,
+    );
+  }
+
+  @override
+  AutoDisposeFutureProvider<void> getProviderOverride(
+    covariant DeleteSecureStorageProvider provider,
+  ) {
+    return call(
+      provider.key,
+    );
+  }
+
+  @override
+  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+
+  @override
+  List<ProviderOrFamily>? get dependencies => null;
+
+  @override
+  String? get name => r'deleteSecureStorageProvider';
+}

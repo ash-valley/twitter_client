@@ -33,7 +33,7 @@ class Timeline extends ConsumerWidget {
             children: [
               Text(error.toString()),
               TextButton(
-                onPressed: () => context.goNamed('/login'),
+                onPressed: () => context.go('/login'),
                 child: const Text('go login'),
               )
             ],
