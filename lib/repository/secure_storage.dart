@@ -6,7 +6,7 @@ import 'package:twitter_client/model/secure_storage/secure_storage.dart';
 
 part 'secure_storage.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 FlutterSecureStorage flutterSecureStorage(FlutterSecureStorageRef ref) {
   return const FlutterSecureStorage();
 }
@@ -16,7 +16,7 @@ FutureOr<void> writeSecureStorage(
   WriteSecureStorageRef ref,
   SecureStorage secureStorage,
 ) =>
-    ref.read(flutterSecureStorageProvider).write(
+    ref.watch(flutterSecureStorageProvider).write(
           key: secureStorage.key!.name,
           value: json.encode(secureStorage.toJson()),
         );
@@ -27,7 +27,7 @@ Future<SecureStorage?> readSecureStorage(
   SecureStorageKey key,
 ) async {
   final value =
-      await ref.read(flutterSecureStorageProvider).read(key: key.name);
+      await ref.watch(flutterSecureStorageProvider).read(key: key.name);
   if (value == null) {
     return null;
   }
@@ -39,4 +39,4 @@ FutureOr<void> deleteSecureStorage(
   DeleteSecureStorageRef ref,
   SecureStorageKey key,
 ) =>
-    ref.read(flutterSecureStorageProvider).delete(key: key.name);
+    ref.watch(flutterSecureStorageProvider).delete(key: key.name);

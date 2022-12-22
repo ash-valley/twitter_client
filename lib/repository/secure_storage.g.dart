@@ -30,18 +30,18 @@ class _SystemHash {
 }
 
 String $flutterSecureStorageHash() =>
-    r'04c4b9c1628578344b18cad756230eee7b28cb00';
+    r'd2f09e488339d1103415fb8714b47df4f4b78eb8';
 
 /// See also [flutterSecureStorage].
-final flutterSecureStorageProvider = AutoDisposeProvider<FlutterSecureStorage>(
+final flutterSecureStorageProvider = Provider<FlutterSecureStorage>(
   flutterSecureStorage,
   name: r'flutterSecureStorageProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : $flutterSecureStorageHash,
 );
-typedef FlutterSecureStorageRef = AutoDisposeProviderRef<FlutterSecureStorage>;
-String $writeSecureStorageHash() => r'46df58abb23efdef2da942bc557c85c6853a2c03';
+typedef FlutterSecureStorageRef = ProviderRef<FlutterSecureStorage>;
+String $writeSecureStorageHash() => r'0bf339c72a5c0c81fb66f13cd5e4c17dc0dba4b7';
 
 /// See also [writeSecureStorage].
 class WriteSecureStorageProvider extends AutoDisposeFutureProvider<void> {
@@ -112,7 +112,7 @@ class WriteSecureStorageFamily extends Family<AsyncValue<void>> {
   String? get name => r'writeSecureStorageProvider';
 }
 
-String $readSecureStorageHash() => r'181de89c3f97c57131d5478f002b50b8b1ce7ac9';
+String $readSecureStorageHash() => r'd879f4814ed0be15e8def319329eb757888e3e82';
 
 /// See also [readSecureStorage].
 class ReadSecureStorageProvider extends FutureProvider<SecureStorage?> {
@@ -183,7 +183,7 @@ class ReadSecureStorageFamily extends Family<AsyncValue<SecureStorage?>> {
 }
 
 String $deleteSecureStorageHash() =>
-    r'55ee64e2d75eb18d053456797e2ebd875c9fee52';
+    r'3ba44990cb68f66a3c991615426c5b9a418db18e';
 
 /// See also [deleteSecureStorage].
 class DeleteSecureStorageProvider extends AutoDisposeFutureProvider<void> {

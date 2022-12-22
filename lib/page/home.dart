@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:twitter_client/model/twitter/tweet_data_with_author.dart';
-import 'package:twitter_client/repository/twitter_api.dart';
+import 'package:twitter_client/service/time_line_service.dart';
+import 'package:twitter_client/state/tweet_state.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -23,11 +23,23 @@ class Timeline extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(timelineProvider).when(
+    return ref.watch(timelineStateProvider).when(
           data: (data) => ListView.separated(
             separatorBuilder: (context, index) => const Divider(),
-            itemCount: data.length,
-            itemBuilder: (context, index) => Tweet(tweet: data[index]),
+            itemCount: data.tweets.length + 1,
+            itemBuilder: (context, index) {
+              if (index < data.tweets.length) {
+                return Tweet(tweet: data.tweets[index]);
+              }
+              if (data.hasNext) {
+                Future(
+                    ref.read(timelineStateProvider.notifier).loadItemsIfNeeded);
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
           error: (error, stackTrace) => Column(
             children: [
@@ -51,16 +63,24 @@ class Tweet extends ConsumerWidget {
     required this.tweet,
   });
 
-  final TweetDataWithAuthor tweet;
+  final TweetState tweet;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      leading: tweet.userData.profileImageUrl != null
-          ? Image.network(tweet.userData.profileImageUrl!)
-          : const Icon(Icons.account_circle),
-      title: Text(tweet.userData.name),
-      subtitle: SelectableText(tweet.tweetData.text),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          // leading: tweet.userData.profileImageUrl != null
+          //     ? Image.network(
+          //         tweet.userData.profileImageUrl!,
+          //         width: 40,
+          //       )
+          //     : const Icon(Icons.account_circle),
+          // title: Text(tweet.userData.name),
+          subtitle: SelectableText(tweet.text),
+        ),
+      ],
     );
   }
 }
