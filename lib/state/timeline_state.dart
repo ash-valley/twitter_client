@@ -35,6 +35,8 @@ class TimelineState with _$TimelineState {
 
   bool get hasNext => nextToken != null;
 
+  List<String> get authorIds => tweets.map((e) => e.authorId).toSet().toList();
+
   TimelineState addNextTimeline(TimelineResponse response) => TimelineState(
         tweets: [
           ...tweets,
@@ -46,8 +48,8 @@ class TimelineState with _$TimelineState {
                   ))
               .toList(),
         ],
-        newestId: response.meta?.newestId,
-        oldestId: oldestId,
+        newestId: newestId,
+        oldestId: response.meta?.oldestId,
         nextToken: response.meta?.nextToken,
         previousToken: response.meta?.previousToken,
       );

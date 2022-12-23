@@ -39,63 +39,63 @@ final twitterApiProvider = FutureProvider<TwitterApiWrapper>(
       const bool.fromEnvironment('dart.vm.product') ? null : $twitterApiHash,
 );
 typedef TwitterApiRef = FutureProviderRef<TwitterApiWrapper>;
-String $twitterUserHash() => r'9a9b566cc0fdb67fc2f493b6d99a6960640316ec';
+String $twitterApiUserHash() => r'e0ae02bbbe9d67025bd247fbf084c3d1c020d431';
 
-/// See also [twitterUser].
-class TwitterUserProvider extends AutoDisposeFutureProvider<UserData> {
-  TwitterUserProvider(
-    this.userId,
+/// See also [twitterApiUser].
+class TwitterApiUserProvider extends AutoDisposeFutureProvider<List<UserData>> {
+  TwitterApiUserProvider(
+    this.userIds,
   ) : super(
-          (ref) => twitterUser(
+          (ref) => twitterApiUser(
             ref,
-            userId,
+            userIds,
           ),
-          from: twitterUserProvider,
-          name: r'twitterUserProvider',
+          from: twitterApiUserProvider,
+          name: r'twitterApiUserProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $twitterUserHash,
+                  : $twitterApiUserHash,
         );
 
-  final String userId;
+  final List<String> userIds;
 
   @override
   bool operator ==(Object other) {
-    return other is TwitterUserProvider && other.userId == userId;
+    return other is TwitterApiUserProvider && other.userIds == userIds;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, userId.hashCode);
+    hash = _SystemHash.combine(hash, userIds.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-typedef TwitterUserRef = AutoDisposeFutureProviderRef<UserData>;
+typedef TwitterApiUserRef = AutoDisposeFutureProviderRef<List<UserData>>;
 
-/// See also [twitterUser].
-final twitterUserProvider = TwitterUserFamily();
+/// See also [twitterApiUser].
+final twitterApiUserProvider = TwitterApiUserFamily();
 
-class TwitterUserFamily extends Family<AsyncValue<UserData>> {
-  TwitterUserFamily();
+class TwitterApiUserFamily extends Family<AsyncValue<List<UserData>>> {
+  TwitterApiUserFamily();
 
-  TwitterUserProvider call(
-    String userId,
+  TwitterApiUserProvider call(
+    List<String> userIds,
   ) {
-    return TwitterUserProvider(
-      userId,
+    return TwitterApiUserProvider(
+      userIds,
     );
   }
 
   @override
-  AutoDisposeFutureProvider<UserData> getProviderOverride(
-    covariant TwitterUserProvider provider,
+  AutoDisposeFutureProvider<List<UserData>> getProviderOverride(
+    covariant TwitterApiUserProvider provider,
   ) {
     return call(
-      provider.userId,
+      provider.userIds,
     );
   }
 
@@ -106,34 +106,34 @@ class TwitterUserFamily extends Family<AsyncValue<UserData>> {
   List<ProviderOrFamily>? get dependencies => null;
 
   @override
-  String? get name => r'twitterUserProvider';
+  String? get name => r'twitterApiUserProvider';
 }
 
-String $timelineHash() => r'28ddfd559db48b22b8392522a05e4c24f2382268';
+String $twitterApiTimelineHash() => r'f453b1b45c03e15c2f116394f23304e833c15d17';
 
-/// See also [timeline].
-class TimelineProvider extends AutoDisposeFutureProvider<
+/// See also [twitterApiTimeline].
+class TwitterApiTimelineProvider extends AutoDisposeFutureProvider<
     TwitterResponse<List<TweetData>, TweetMeta>> {
-  TimelineProvider(
+  TwitterApiTimelineProvider(
     this.nextToken,
   ) : super(
-          (ref) => timeline(
+          (ref) => twitterApiTimeline(
             ref,
             nextToken,
           ),
-          from: timelineProvider,
-          name: r'timelineProvider',
+          from: twitterApiTimelineProvider,
+          name: r'twitterApiTimelineProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $timelineHash,
+                  : $twitterApiTimelineHash,
         );
 
   final String? nextToken;
 
   @override
   bool operator ==(Object other) {
-    return other is TimelineProvider && other.nextToken == nextToken;
+    return other is TwitterApiTimelineProvider && other.nextToken == nextToken;
   }
 
   @override
@@ -145,20 +145,20 @@ class TimelineProvider extends AutoDisposeFutureProvider<
   }
 }
 
-typedef TimelineRef
+typedef TwitterApiTimelineRef
     = AutoDisposeFutureProviderRef<TwitterResponse<List<TweetData>, TweetMeta>>;
 
-/// See also [timeline].
-final timelineProvider = TimelineFamily();
+/// See also [twitterApiTimeline].
+final twitterApiTimelineProvider = TwitterApiTimelineFamily();
 
-class TimelineFamily
+class TwitterApiTimelineFamily
     extends Family<AsyncValue<TwitterResponse<List<TweetData>, TweetMeta>>> {
-  TimelineFamily();
+  TwitterApiTimelineFamily();
 
-  TimelineProvider call(
+  TwitterApiTimelineProvider call(
     String? nextToken,
   ) {
-    return TimelineProvider(
+    return TwitterApiTimelineProvider(
       nextToken,
     );
   }
@@ -166,7 +166,7 @@ class TimelineFamily
   @override
   AutoDisposeFutureProvider<TwitterResponse<List<TweetData>, TweetMeta>>
       getProviderOverride(
-    covariant TimelineProvider provider,
+    covariant TwitterApiTimelineProvider provider,
   ) {
     return call(
       provider.nextToken,
@@ -180,5 +180,5 @@ class TimelineFamily
   List<ProviderOrFamily>? get dependencies => null;
 
   @override
-  String? get name => r'timelineProvider';
+  String? get name => r'twitterApiTimelineProvider';
 }

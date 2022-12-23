@@ -4,7 +4,7 @@ import 'package:twitter_client/state/timeline_state.dart';
 
 final timelineStateProvider = StateNotifierProvider.autoDispose<TimelineService,
     AsyncValue<TimelineState>>((ref) {
-  final timeline = ref.watch(timelineProvider(null));
+  final timeline = ref.watch(twitterApiTimelineProvider(null));
   return TimelineService(
     timeline.when(
       data: ((data) => AsyncData(TimelineState.fromResponse(data))),
@@ -23,15 +23,16 @@ class TimelineService extends StateNotifier<AsyncValue<TimelineState>> {
 
   final Ref ref;
 
-  Future<void> refresh() => ref.refresh(timelineProvider(null).future);
+  Future<void> refresh() =>
+      ref.refresh(twitterApiTimelineProvider(null).future);
 
   Future<void> loadItemsIfNeeded() async {
     if (state.isLoading || state.value?.nextToken == null) {
       return;
     }
     state = const AsyncLoading<TimelineState>().copyWithPrevious(state);
-    final nextTimeline =
-        await ref.read(timelineProvider(state.value!.nextToken).future);
+    final nextTimeline = await ref
+        .read(twitterApiTimelineProvider(state.value!.nextToken).future);
     state = AsyncValue.data(state.requireValue.addNextTimeline(nextTimeline));
   }
 }

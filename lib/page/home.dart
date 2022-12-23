@@ -71,6 +71,7 @@ class Tweet extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ListTile(
+          title: Text(tweet.id),
           // leading: tweet.userData.profileImageUrl != null
           //     ? Image.network(
           //         tweet.userData.profileImageUrl!,

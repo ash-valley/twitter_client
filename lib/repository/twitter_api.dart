@@ -18,14 +18,20 @@ FutureOr<TwitterApiWrapper> twitterApi(TwitterApiRef ref) async {
 }
 
 @riverpod
-FutureOr<UserData> twitterUser(TwitterUserRef ref, String userId) async {
+FutureOr<List<UserData>> twitterApiUser(
+  TwitterApiUserRef ref,
+  List<String> userIds,
+) async {
   final twitterApi = await ref.watch(twitterApiProvider.future);
-  return await twitterApi.getUsers(userId);
+  return await twitterApi.getUsers(userIds);
 }
 
 typedef TimelineResponse = TwitterResponse<List<TweetData>, TweetMeta>;
 @riverpod
-FutureOr<TimelineResponse> timeline(TimelineRef ref, String? nextToken) async {
+FutureOr<TimelineResponse> twitterApiTimeline(
+  TwitterApiTimelineRef ref,
+  String? nextToken,
+) async {
   final twitterApi = await ref.watch(twitterApiProvider.future);
   return await twitterApi.getTimeLine(nextToken);
 }
@@ -48,20 +54,24 @@ class TwitterApiWrapper {
 
   Future<TimelineResponse> getTimeLine(String? paginationToken) async {
     final timeline = await _client.tweets.lookupHomeTimeline(
-        userId: authResult.id,
-        tweetFields: [
-          TweetField.authorId,
-          TweetField.entities,
-        ],
-        paginationToken: paginationToken);
+      userId: authResult.id,
+      tweetFields: [
+        TweetField.authorId,
+        TweetField.entities,
+      ],
+      paginationToken: paginationToken,
+    );
     return timeline;
   }
 
-  Future<UserData> getUsers(String id) async {
-    final userData = await _client.users.lookupById(userId: id, userFields: [
-      UserField.name,
-      UserField.profileImageUrl,
-    ]);
+  Future<List<UserData>> getUsers(List<String> id) async {
+    final userData = await _client.users.lookupByIds(
+      userIds: id,
+      userFields: [
+        UserField.name,
+        UserField.profileImageUrl,
+      ],
+    );
     return userData.data;
   }
 
